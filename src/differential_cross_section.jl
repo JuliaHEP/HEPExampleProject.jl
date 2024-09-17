@@ -14,7 +14,7 @@ scattering angle (`cos_theta`), i.e. the angle between the incoming electron and
 - `cos_theta::Real`: The cosine of the scattering angle between the incoming electron and the outgoing muon.
 
 # Methodology
-This function computes the differential cross section using the following formula:
+This function computes the differential cross section using the following formula (from Schwartz 2014):
 
 ```math
 \\frac{\\mathrm{d}\\sigma}{\\mathrm{d}\\Omega} = \\frac{\\alpha^2}{16 E_{\\mathrm{in}}^6}\\left( E_{\\text{in}}^4 + \\rho_e^2 \\rho_\\mu^2 \\cos^2\\theta + E_{\\text{in}}^2 \\left( m_e^2 + m_\\mu^2 \\right) \\right)
@@ -33,6 +33,9 @@ julia> cos_theta = 0.5
 julia> differential_cross_section(E_in, cos_theta)
 5.3623421e-10
 ```
+
+# References
+- Schwartz 2014: M.D. Schwartz, "Quantum Field Theory and the Standard Model", Cambridge University Press, New York (2014)
 """
 function differential_cross_section(E_in,cos_theta)
     # reminder: Ein == Eout
@@ -51,6 +54,22 @@ function differential_cross_section_PS(E_in,cos_theta)
     rho_mu = _rho(E_in,    MUON_MASS)
     prefac = ALPHA^2/(16*E_in^5)*rho_mu
     return prefac*(E_in^2 + MUON_MASS^2 + rho_mu^2*cos_theta^2)
+end
+
+function total_cross_section_PS(E_in)
+    return 4*pi*ALPHA^2/(3*4*E_in^2)*sqrt(1-MUON_MASS^2/E_in^2)*(1 + MUON_MASS^2/(2*E_in^2))
+end
+
+function total_cross_section(E_in)
+    rho_e  = _rho(E_in,ELECTRON_MASS)
+    rho_mu = _rho(E_in,    MUON_MASS)
+
+    prefac = pi*ALPHA^2/(8*E_in^6)*rho_mu/rho_e
+    return prefac*(
+        2*E_in^4
+        + 2/3*rho_mu^2*rho_e^2
+        + 2*E_in^2*(MUON_MASS^2 + ELECTRON_MASS^2)
+    )
 end
 
 

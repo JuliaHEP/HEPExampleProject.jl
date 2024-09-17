@@ -27,7 +27,11 @@ struct FourMomentum{T<:Real}
     y::T  # y-component
     z::T  # z-component
 end
+# type promotion on construction
 FourMomentum(en,x,y,z) = FourMomentum(promote(en,x,y,z)...)
+
+# return the element type
+Base.eltype(::FourMomentum{T}) where T = T
 
 # Overload Base.show for pretty printing of FourMomentum; plain text version
 function Base.show(io::IO, m::MIME"text/plain", p::FourMomentum)
@@ -40,7 +44,6 @@ function Base.show(io::IO, p::FourMomentum)
     println(io, "($(round(p.en,digits=6)), $(round(p.x,digits=6)), $(round(p.y,digits=6)), $(round(p.z,digits=6)))")
     return nothing
 end
-
 
 """
 
@@ -167,11 +170,11 @@ Dict{String, FourMomentum{Float64}} with 4 entries:
   "e-"  => (1000.0, 0.0, 0.0, 999.999869)…
 
 julia> mom_dict["e-"]
-FourMomentum(en = 1000.0, x = 0.0, y = 0.0, z = 999.9998694400276)
+FourMomentum(en = 1000.0, x = 0.0, y = 0.0, z = 999.999869440028)
 
 
 julia> mom_dict["e+"]
-FourMomentum(en = 1000.0, x = 0.0, y = 0.0, z = -999.9998694400276)
+FourMomentum(en = 1000.0, x = 0.0, y = 0.0, z = -999.999869440028)
 
 
 julia> mom_dict["mu-"]
