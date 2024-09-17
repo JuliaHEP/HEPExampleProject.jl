@@ -14,8 +14,11 @@ is a subtype of `Real`, allowing for arbitrary precision and numeric types.
 # Example
 
 ```jldoctest
-julia> p = FourMomentum(4.0, 1.0, 2.0, 3.0)
-(en = 4.0, x = 1.0, y = 2.0, z = 3.0)
+julia> FourMomentum(4.0, 1.0, 2.0, 3.0)
+FourMomentum(en = 4.0, x = 1.0, y = 2.0, z = 3.0)
+
+julia> FourMomentum(4, 1.0, 2, 3) # implicit type promotion
+FourMomentum(en = 4.0, x = 1.0, y = 2.0, z = 3.0)
 ```
 """
 struct FourMomentum{T<:Real}
@@ -26,11 +29,17 @@ struct FourMomentum{T<:Real}
 end
 FourMomentum(en,x,y,z) = FourMomentum(promote(en,x,y,z)...)
 
-# Overload Base.show for pretty printing of FourMomentum
-function Base.show(io::IO, p::FourMomentum)
-    println(io, "(en = $(p.en), x = $(p.x), y = $(p.y), z = $(p.z))")
+# Overload Base.show for pretty printing of FourMomentum; plain text version
+function Base.show(io::IO, m::MIME"text/plain", p::FourMomentum)
+    println(io, """FourMomentum(en = $(p.en), x = $(p.x), y = $(p.y), z = $(p.z))""")
+    return nothing
 end
 
+# Overload Base.show for pretty printing of FourMomentum; inline version
+function Base.show(io::IO, p::FourMomentum)
+    println(io, "($(round(p.en,digits=6)), $(round(p.x,digits=6)), $(round(p.y,digits=6)), $(round(p.z,digits=6)))")
+    return nothing
+end
 
 
 """
@@ -44,9 +53,15 @@ with each component being the sum of the corresponding components of `p1` and `p
 
 ```julia
 julia> p1 = FourMomentum(4.0, 1.0, 2.0, 3.0)
+FourMomentum(en = 4.0, x = 1.0, y = 2.0, z = 3.0)
+
+
 julia> p2 = FourMomentum(2.0, 0.5, 1.0, 1.5)
+FourMomentum(en = 2.0, x = 0.5, y = 1.0, z = 1.5)
+
+
 julia> p1 + p2
-(en = 6.0, x = 1.5, y = 3.0, z = 4.5)
+FourMomentum(en = 6.0, x = 1.5, y = 3.0, z = 4.5)
 ```
 """
 function Base.:+(p1::FourMomentum, p2::FourMomentum) 
@@ -65,9 +80,13 @@ with each component being the difference between the corresponding components of
 
 ```jldoctest
 julia> p1 = FourMomentum(4.0, 1.0, 2.0, 3.0)
+FourMomentum(en = 4.0, x = 1.0, y = 2.0, z = 3.0)
+
 julia> p2 = FourMomentum(2.0, 0.5, 1.0, 1.5)
+FourMomentum(en = 2.0, x = 0.5, y = 1.0, z = 1.5)
+
 julia> p1 - p2
-(en = 2.0, x = 0.5, y = 1.0, z = 1.5)
+FourMomentum(en = 2.0, x = 0.5, y = 1.0, z = 1.5)
 ```
 """ 
 function Base.:-(p1::FourMomentum, p2::FourMomentum) 
@@ -86,8 +105,10 @@ four-momentum by a scalar `a`.
 
 ```jldoctest
 julia> p = FourMomentum(4.0, 1.0, 2.0, 3.0)
+FourMomentum(en = 4.0, x = 1.0, y = 2.0, z = 3.0)
+
 julia> 2 * p
-(en = 8.0, x = 2.0, y = 4.0, z = 6.0)
+FourMomentum(en = 8.0, x = 2.0, y = 4.0, z = 6.0)
 ```
 """
 function Base.:*(a::Real, p::FourMomentum) 
@@ -109,9 +130,13 @@ Minkowski metric `(+,-,-,-)`. For ``p_i = (E_i,p_i^x,p_i^y,p_i^z)`` with ``i=1,2
 # Example
 ```jldoctest
 julia> p1 = FourMomentum(4.0, 1.0, 2.0, 3.0)
+FourMomentum(en = 4.0, x = 1.0, y = 2.0, z = 3.0)
+
 julia> p2 = FourMomentum(3.0, 0.5, 1.0, 1.5)
+FourMomentum(en = 3.0, x = 0.5, y = 1.0, z = 1.5)
+
 julia> minkowski_dot(p1, p2)
-9.75
+5.0
 ```
 """
 function minkowski_dot(p1::FourMomentum, p2::FourMomentum)
@@ -119,8 +144,45 @@ function minkowski_dot(p1::FourMomentum, p2::FourMomentum)
     return p1.en * p2.en - p1.x * p2.x - p1.y * p2.y - p1.z * p2.z
 end
 
-# constructs momenta from coordinates
-function _construct_from_coords(E_in,cos_theta,phi)
+
+
+"""
+    construct_from_coords(E_in::Real, cos_theta::Real, phi::Real)
+
+Constructs the four-momenta for an electron-positron annihilation process ``e^+ e^- \\rightarrow \\mu^+ \\mu^-``
+in the center-of-mass frame. The input energy (`E_in`), scattering angle (`cos_theta`), and azimuthal angle (`phi`) 
+are used to compute the incoming and outgoing momenta for the particles.
+
+# Returns
+A `Dict` mapping the particle names ("e-", "e+", "mu-", "mu+") to their respective `FourMomentum` objects.
+
+# Example
+
+```jldoctest
+julia> mom_dict = construct_from_coords(1e3,0.9,pi/4)
+Dict{String, FourMomentum{Float64}} with 4 entries:
+  "mu+" => (1000.0, -306.495431, -306.495431, -894.962239)…
+  "mu-" => (1000.0, 306.495431, 306.495431, 894.962239)…
+  "e+"  => (1000.0, 0.0, 0.0, -999.999869)…
+  "e-"  => (1000.0, 0.0, 0.0, 999.999869)…
+
+julia> mom_dict["e-"]
+FourMomentum(en = 1000.0, x = 0.0, y = 0.0, z = 999.9998694400276)
+
+
+julia> mom_dict["e+"]
+FourMomentum(en = 1000.0, x = 0.0, y = 0.0, z = -999.9998694400276)
+
+
+julia> mom_dict["mu-"]
+FourMomentum(en = 1000.0, x = 306.4954310103767, y = 306.49543101037665, z = 894.9622389946002)
+
+
+julia> mom_dict["mu+"]
+FourMomentum(en = 1000.0, x = -306.4954310103767, y = -306.49543101037665, z = -894.9622389946002)
+```
+"""
+function construct_from_coords(E_in,cos_theta,phi)
     rho_e = _rho(E_in,ELECTRON_MASS)
     p_in_electron = FourMomentum(E_in,0,0,rho_e)
     p_in_positron = FourMomentum(E_in,0,0,-rho_e)
