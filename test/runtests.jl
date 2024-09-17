@@ -1,6 +1,12 @@
 using HEPExampleProject
 using Test
+using SafeTestsets
 
-@testset "HEPExampleProject.jl" begin
-    # Write your tests here.
+begin
+    @safetestset "four momentum" begin
+        include("four_momentum.jl")
+    end
+    @safetestset "differential cross section" begin
+        include("differential_cross_section.jl")
+    end
 end

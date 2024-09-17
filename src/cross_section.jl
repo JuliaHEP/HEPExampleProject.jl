@@ -27,11 +27,16 @@ where:
 - ``m_e`` and ``m_\\mu`` are the masses of the electron and muon, respectively.
 
 # Example
-```julia
-julia> E_in = 100.0
+
+```jldoctest
+julia> E_in = 1e3 # MeV
+1000.0
+
 julia> cos_theta = 0.5
+0.5
+
 julia> differential_cross_section(E_in, cos_theta)
-5.3623421e-10
+4.164686491998452e-12
 ```
 
 # References
@@ -60,6 +65,37 @@ function total_cross_section_PS(E_in)
     return 4*pi*ALPHA^2/(3*4*E_in^2)*sqrt(1-MUON_MASS^2/E_in^2)*(1 + MUON_MASS^2/(2*E_in^2))
 end
 
+"""
+    total_cross_section(E_in::Real)
+
+Calculates the total cross section for the process ``e^+ e^- \\to \\mu^+ \\mu^-`` at tree level,
+as a function of the initial electron energy `E_in`.
+
+# Arguments
+- `E_in::Real`: The energy of the initial electron/positron in MeV.
+
+# Methodology 
+The calculation is based on the analytical integration of the [`differential_cross_section`](@ref) and uses the following formula for the total cross section:
+
+```math
+\\mathrm{d}\\sigma(E_in) = \\frac{\\pi \\alpha^2}{8 E_{\\text{in}}^6} \\cdot \\frac{\\rho_\\mu}{\\rho_e} \\left( 2 E_{\\text{in}}^4 + \\frac{2}{3} \\rho_\\mu^2 \\rho_e^2 + 2 E_{\\text{in}}^2 (m_\\mu^2 + m_e^2) \\right)
+```
+where: 
+- ``E_{\\text{in}}`` is the energy of the incoming electron/positron in CMS,
+- ``\\rho_i = \\sqrt{E_{\\text{in}}^2 - m_i^2}`` are the magnitude of three-momenta of the electron (``i=e``) and muon (``i=\\mu``) in the center-of-mass frame,
+- ``\\alpha`` is the fine-structure constant,
+- ``m_e`` and ``m_\\mu`` are the masses of the electron and muon, respectively.
+
+# Example 
+
+```jldoctest
+julia> E_in = 1e3 # MeV
+1000.0
+
+julia> total_cross_section(E_in)
+5.576208658540325e-11
+```
+"""
 function total_cross_section(E_in)
     rho_e  = _rho(E_in,ELECTRON_MASS)
     rho_mu = _rho(E_in,    MUON_MASS)
