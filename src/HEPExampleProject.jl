@@ -12,7 +12,9 @@ export FourMomentum, minkowski_dot, construct_from_coords
 export Event
 export muon_cos_theta, muon_rapidity
 
-export generate_flat_events_serial
+export generate_flat_events_serial, generate_events_serial
+
+export plot_muon_cos_theta 
 
 # Write your package code here.
 include("constants.jl")
@@ -20,6 +22,7 @@ include("four_momentum.jl")
 include("cross_section.jl")
 include("events.jl")
 include("event_generation.jl")
+include("plotting.jl")
 include("utils.jl")
 
 end
