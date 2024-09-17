@@ -23,7 +23,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - "1.11-rc"
+          - "^1.11.0-rc3"
         os:
           - ubuntu-latest
         arch:
