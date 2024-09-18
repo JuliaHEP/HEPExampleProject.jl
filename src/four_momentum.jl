@@ -171,6 +171,8 @@ function _construct_moms_from_coords(E_in,cos_theta,phi)
     )
 end
 
+# TODO: 
+# consider using NamedTuples instead
 """
     coords_to_dict(E_in::Real, cos_theta::Real, phi::Real)
 
