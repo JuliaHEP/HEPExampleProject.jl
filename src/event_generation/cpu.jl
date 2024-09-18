@@ -1,3 +1,14 @@
+"""
+    max_weight(E_in)
+
+Return the maximum weight, i.e. the maxmaximum value of [`differential_cross_section`](@ref) for specified initial electron energy `E_in. 
+
+# Example
+```jldoctest
+julia> max_weight(1e3)
+6.619160791345756e-12
+```
+"""
 function max_weight(E_in)
     differential_cross_section(E_in,-1) 
 end

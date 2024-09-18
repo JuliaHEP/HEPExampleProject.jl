@@ -12,7 +12,7 @@ export FourMomentum, minkowski_dot, coords_to_dict
 export Event
 export muon_cos_theta, muon_rapidity
 
-export generate_flat_events_cpu, generate_events_cpu
+export generate_flat_events_cpu, generate_events_cpu, max_weight
 
 export plot_muon_cos_theta 
 
