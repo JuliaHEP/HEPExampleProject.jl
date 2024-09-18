@@ -2,29 +2,8 @@ function max_weight(E_in)
     differential_cross_section(E_in,-1) 
 end
 
-#=
-function generate_flat_events_serial(rng::AbstractRNG,E_in::T,nevents) where {T<:Real}
-    cth_arr = 2 .* rand(rng,nevents) .- 1
-    phi_arr = (2*pi) .* rand(rng,nevents) 
-    weigth_list = differential_cross_section.(E_in,cth_arr)
-
-    moms_dict_list = _construct_from_coords.(E_in,cth_arr,phi_arr)
-
-    event_list = Event.(moms_dict_list,weigth_list)
-   
-    return event_list
-end
-
-function build_unweightnig_mask(rng::AbstractRNG,event_list)
-    unweighting_mask = Vector{Bool}(undef,length(event_list)) 
-
-    for i in 1:nevents
-    end
-end
-=#
-
 """
-    generate_flat_events_serial(rng::AbstractRNG, E_in::Real, nevents::Int)
+    generate_flat_events_cpu(rng::AbstractRNG, E_in::Real, nevents::Int)
 
 Generates a list of weighted events for the process ``e^+ e^- \\to \\mu^+ \\mu^-`` using a 
 flat random distribution in the cosine of the scattering angle and azimuthal angle.
@@ -46,28 +25,26 @@ flat random distribution in the cosine of the scattering angle and azimuthal ang
 # Example
 ```julia
 julia> rng = MersenneTwister(137)
-julia> event_list = generate_flat_events_serial(rng, 1e3, 1000);
+julia> event_list = generate_flat_events_cpu(rng, 1e3, 1000);
 ```
 The `;` should be used at the end of the last promt to suppress printing the whole event list.
 
 # Notes
-- This method generates weighted events where the weights are derived from the differential cross section. For unweighted events, use [`generate_events_serial`](@ref).
+- This method generates weighted events where the weights are derived from the differential cross section. For unweighted events, use [`generate_events_cpu`](@ref).
 """
-function generate_flat_events_serial(rng::AbstractRNG,E_in::T,nevents::Int) where {T<:Real}
+function generate_flat_events_cpu(rng::AbstractRNG,E_in::T,nevents::Int) where {T<:Real}
     cth_arr = 2 .* rand(rng,nevents) .- 1
     phi_arr = (2*pi) .* rand(rng,nevents) 
     weigth_list = differential_cross_section.(E_in,cth_arr)
 
-    moms_dict_list = construct_from_coords.(E_in,cth_arr,phi_arr)
-
-    event_list = Event.(moms_dict_list,weigth_list)
+    event_list = Event.(E_in,cth_arr,phi_arr,weigth_list)
    
     return event_list
 end
 
 
 """
-    generate_events_serial(rng::AbstractRNG, E_in::Real, nevents::Int) 
+    generate_events_cpu(rng::AbstractRNG, E_in::Real, nevents::Int) 
 
 Generates a list of unweighted events for the process ``e^+ e^- \\to \\mu^+ \\mu^-`` using 
 the acceptance-rejection method. The events are generated according to the 
@@ -90,10 +67,10 @@ the acceptance-rejection method. The events are generated according to the
 # Example
 ```julia
 julia> rng = MersenneTwister(137)
-julia> unweighted_events = generate_events_serial(rng, 1e3, 1000);
+julia> unweighted_events = generate_events_cpu(rng, 1e3, 1000);
 ```
 """
-function generate_events_serial(rng::AbstractRNG,E_in::T,nevents::Int) where {T<:Real}
+function generate_events_cpu(rng::AbstractRNG,E_in::T,nevents::Int) where {T<:Real}
     unweighted_events = Vector{Event{T}}(undef,nevents)
     maximum_weight = max_weight(E_in)
    
@@ -117,3 +94,4 @@ function generate_events_serial(rng::AbstractRNG,E_in::T,nevents::Int) where {T<
     end
     return unweighted_events
 end
+

@@ -54,12 +54,12 @@ RNG = MersenneTwister(137)
         @test isapprox(p1_times_p2,en1*en2 - x1*x2 - y1*y2 - z1*z2)
     end
 
-    @testset "construct from coords" begin
+    @testset "coords to dict" begin
         E = 1e4*rand(RNG,ELTYPE1)
         cos_theta = 2*rand(RNG,ELTYPE1) - 1
         phi = 2*pi*rand(RNG,ELTYPE1)
 
-        mom_dict = construct_from_coords(E,cos_theta,phi) 
+        mom_dict = coords_to_dict(E,cos_theta,phi) 
         mom_electron  = mom_dict["e-"]
         mom_positron  = mom_dict["e+"]
         mom_muon      = mom_dict["mu-"]

@@ -83,6 +83,9 @@ end
 # construct event from momentum dict
 Event(d::Dict,weight) = Event(d["e-"],d["e+"],d["mu-"],d["mu+"],weight)
 
+# construct event from coordinates
+Event(E_in::Real,cos_theta::Real,phi::Real,weight::Real) = Event(_construct_moms_from_coords(E_in,cos_theta,phi)...,weight)
+
 # pretty printing for events
 function Base.show(io::IO,event::Event)
     println(io,"Event(w=$(event.weight))")

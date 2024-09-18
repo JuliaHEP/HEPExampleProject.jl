@@ -147,10 +147,32 @@ function minkowski_dot(p1::FourMomentum, p2::FourMomentum)
     return p1.en * p2.en - p1.x * p2.x - p1.y * p2.y - p1.z * p2.z
 end
 
+function _construct_moms_from_coords(E_in,cos_theta,phi)
+    rho_e = _rho(E_in,ELECTRON_MASS)
+    p_in_electron = FourMomentum(E_in,0,0,rho_e)
+    p_in_positron = FourMomentum(E_in,0,0,-rho_e)
 
+    
+    rho_mu = _rho(E_in,MUON_MASS)
+    sin_theta = sqrt(1-cos_theta^2)
+    sin_phi,cos_phi = sincos(phi)
+    p_out_muon = FourMomentum(E_in,
+                              rho_mu*sin_theta*cos_phi,
+                              rho_mu*sin_theta*sin_phi,
+                              rho_mu*cos_theta
+                              )
+    p_out_anti_muon = p_in_electron + p_in_positron - p_out_muon
+
+    return (
+        p_in_electron,
+        p_in_positron,
+        p_out_muon,
+        p_out_anti_muon
+    )
+end
 
 """
-    construct_from_coords(E_in::Real, cos_theta::Real, phi::Real)
+    coords_to_dict(E_in::Real, cos_theta::Real, phi::Real)
 
 Constructs the four-momenta for an electron-positron annihilation process ``e^+ e^- \\rightarrow \\mu^+ \\mu^-``
 in the center-of-mass frame. The input energy (`E_in`), scattering angle (`cos_theta`), and azimuthal angle (`phi`) 
@@ -162,7 +184,7 @@ A `Dict` mapping the particle names ("e-", "e+", "mu-", "mu+") to their respecti
 # Example
 
 ```jldoctest
-julia> mom_dict = construct_from_coords(1e3,0.9,pi/4)
+julia> mom_dict = coords_to_dict(1e3,0.9,pi/4)
 Dict{String, FourMomentum{Float64}} with 4 entries:
   "mu+" => (1000.0, -306.495431, -306.495431, -894.962239)…
   "mu-" => (1000.0, 306.495431, 306.495431, 894.962239)…
@@ -185,26 +207,12 @@ julia> mom_dict["mu+"]
 FourMomentum(en = 1000.0, x = -306.4954310103767, y = -306.49543101037665, z = -894.9622389946002)
 ```
 """
-function construct_from_coords(E_in,cos_theta,phi)
-    rho_e = _rho(E_in,ELECTRON_MASS)
-    p_in_electron = FourMomentum(E_in,0,0,rho_e)
-    p_in_positron = FourMomentum(E_in,0,0,-rho_e)
-
-    
-    rho_mu = _rho(E_in,MUON_MASS)
-    sin_theta = sqrt(1-cos_theta^2)
-    sin_phi,cos_phi = sincos(phi)
-    p_out_muon = FourMomentum(E_in,
-                              rho_mu*sin_theta*cos_phi,
-                              rho_mu*sin_theta*sin_phi,
-                              rho_mu*cos_theta
-                              )
-    p_out_anti_muon = p_in_electron + p_in_positron - p_out_muon
-
+function coords_to_dict(E_in,cos_theta,phi)
+    moms = _construct_moms_from_coords(E_in,cos_theta,phi)
     return Dict(
-        "e-" => p_in_electron,
-        "e+" => p_in_positron,
-        "mu-" => p_out_muon,
-        "mu+" => p_out_anti_muon
+        "e-" => moms[1],
+        "e+" => moms[2],
+        "mu-" => moms[3],
+        "mu+" => moms[4] 
     )
 end
