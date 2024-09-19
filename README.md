@@ -6,7 +6,7 @@
 
 ## TODO
 
-- [ ] add CI for testing
+- [x] add CI for testing
 - [ ] rearrange the docs
 - [ ] add CI for docs building
 - [ ] formatting?
