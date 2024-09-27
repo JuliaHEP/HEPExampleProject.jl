@@ -70,6 +70,7 @@ struct Event{T}
         anti_muon_momentum::FourMomentum{T},
         weight::T) where {T<:Real}
 
+        # FIXME: needs to be deleted to work on CuVectors
         weight >=0.0 || throw(
             ArgumentError(
                 "weight $weight must be non-negative"
