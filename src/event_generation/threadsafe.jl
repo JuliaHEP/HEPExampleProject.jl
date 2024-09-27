@@ -37,7 +37,7 @@ function generate_events(
     E_in::T,
     nevents; 
     array_type::Type{ARRAY_TYPE}=Vector{T}, 
-    chunksize = 1000
+    chunksize = 100
 ) where {
         T<:Real,
         ARRAY_TYPE<:AbstractVector{T}
