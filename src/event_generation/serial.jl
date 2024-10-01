@@ -87,15 +87,15 @@ function generate_events_cpu(rng::AbstractRNG,E_in::T,nevents::Int) where {T<:Re
    
     j = 1
     while true
-        cth_trail = 2*rand(rng)-1
+        cth_trail = 2*rand(rng)-1 
 
         weight = differential_cross_section(E_in,cth_trail)
 
         if weight >= rand(rng)*maximum_weight
             phi_trail = 2*pi*rand(rng)
 
-            moms_dict = construct_from_coords(E_in,cth_trail,phi_trail)
-            unweighted_events[j] = Event(moms_dict,one(weight))
+            moms_tuple = _construct_moms_from_coords(E_in,cth_trail,phi_trail)
+            unweighted_events[j] = Event(moms_tuple...,one(weight))
             if j == nevents
                 break
             else
