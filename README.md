@@ -65,6 +65,8 @@ using StatsPlots
 plot_muon_cos_theta(event_list)
 ```
 
+![event_plot](docs/assets/event_plot.png)
+
 ## Contributing
 
 We welcome contributions to improve this project! If you're interested in contributing, please:
