@@ -12,4 +12,7 @@ begin
     @safetestset "events" begin
         include("events.jl")
     end
+    @safetestset "type stability" begin
+        include("type_stability.jl")
+    end
 end

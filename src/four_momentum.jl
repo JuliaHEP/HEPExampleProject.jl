@@ -147,28 +147,26 @@ function minkowski_dot(p1::FourMomentum, p2::FourMomentum)
     return p1.en * p2.en - p1.x * p2.x - p1.y * p2.y - p1.z * p2.z
 end
 
-function _construct_moms_from_coords(E_in,cos_theta,phi)
-    rho_e = _rho(E_in,ELECTRON_MASS)
-    p_in_electron = FourMomentum(E_in,0,0,rho_e)
-    p_in_positron = FourMomentum(E_in,0,0,-rho_e)
+function _construct_moms_from_coords(E_in, cos_theta, phi)
+    T = typeof(E_in)
 
-    
-    rho_mu = _rho(E_in,MUON_MASS)
-    sin_theta = sqrt(1-cos_theta^2)
-    sin_phi,cos_phi = sincos(phi)
-    p_out_muon = FourMomentum(E_in,
-                              rho_mu*sin_theta*cos_phi,
-                              rho_mu*sin_theta*sin_phi,
-                              rho_mu*cos_theta
-                              )
+    # enfore the irrational constants to be the same type as E_in
+    me = convert(T,ELECTRON_MASS)
+    mmu = convert(T,MUON_MASS)
+
+    rho_e = _rho(E_in, me)
+    p_in_electron = FourMomentum(E_in, 0, 0, rho_e)
+    p_in_positron = FourMomentum(E_in, 0, 0, -rho_e)
+
+    rho_mu = _rho(E_in, mmu)
+    sin_theta = sqrt(1 - cos_theta^2)
+    sin_phi, cos_phi = sincos(phi)
+    p_out_muon = FourMomentum(
+        E_in, rho_mu * sin_theta * cos_phi, rho_mu * sin_theta * sin_phi, rho_mu * cos_theta
+    )
     p_out_anti_muon = p_in_electron + p_in_positron - p_out_muon
 
-    return (
-        p_in_electron,
-        p_in_positron,
-        p_out_muon,
-        p_out_anti_muon
-    )
+    return (p_in_electron, p_in_positron, p_out_muon, p_out_anti_muon)
 end
 
 # TODO: 

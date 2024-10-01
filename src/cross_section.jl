@@ -42,27 +42,20 @@ julia> differential_cross_section(E_in, cos_theta)
 # References
 - Schwartz 2014: M.D. Schwartz, "Quantum Field Theory and the Standard Model", Cambridge University Press, New York (2014)
 """
-function differential_cross_section(E_in,cos_theta)
+function differential_cross_section(E_in, cos_theta)
+    T = typeof(E_in)
+
+    # enfore the irrational constants to be the same type as E_in
+    alpha = convert(T,ALPHA)
+    me = convert(T,ELECTRON_MASS)
+    mmu = convert(T,MUON_MASS)
+
     # reminder: Ein == Eout
-    rho_e  = _rho(E_in,ELECTRON_MASS)
-    rho_mu = _rho(E_in,    MUON_MASS)
+    rho_e = _rho(E_in, me)
+    rho_mu = _rho(E_in, mmu)
 
-    prefac = ALPHA^2/(16*E_in^6)*rho_mu/rho_e
-    return prefac*(
-        E_in^4
-        + rho_e^2*rho_mu^2*cos_theta^2
-        + E_in^2*(ELECTRON_MASS^2 + MUON_MASS^2)
-    )
-end
-
-function differential_cross_section_PS(E_in,cos_theta)
-    rho_mu = _rho(E_in,    MUON_MASS)
-    prefac = ALPHA^2/(16*E_in^5)*rho_mu
-    return prefac*(E_in^2 + MUON_MASS^2 + rho_mu^2*cos_theta^2)
-end
-
-function total_cross_section_PS(E_in)
-    return 4*pi*ALPHA^2/(3*4*E_in^2)*sqrt(1-MUON_MASS^2/E_in^2)*(1 + MUON_MASS^2/(2*E_in^2))
+    prefac = alpha^2 / (16 * E_in^6) * rho_mu / rho_e
+    return prefac * (E_in^4 + rho_e^2 * rho_mu^2 * cos_theta^2 + E_in^2 * (me^2 + mmu^2))
 end
 
 """
@@ -93,18 +86,27 @@ julia> E_in = 1e3 # MeV
 1000.0
 
 julia> total_cross_section(E_in)
-5.576208658540325e-11
+5.576208658540326e-11
+
 ```
 """
 function total_cross_section(E_in)
-    rho_e  = _rho(E_in,ELECTRON_MASS)
-    rho_mu = _rho(E_in,    MUON_MASS)
+    T = typeof(E_in)
+    
+    # enfore the irrational constants to be the same type as E_in
+    alpha = convert(T,ALPHA)
+    me = convert(T,ELECTRON_MASS)
+    mmu = convert(T,MUON_MASS)
 
-    prefac = pi*ALPHA^2/(8*E_in^6)*rho_mu/rho_e
+    rho_e  = _rho(E_in,me)
+    rho_mu = _rho(E_in,mmu)
+
+    prefac = pi*alpha^2/(8*E_in^6)*rho_mu/rho_e
+
     return prefac*(
         2*E_in^4
-        + 2/3*rho_mu^2*rho_e^2
-        + 2*E_in^2*(MUON_MASS^2 + ELECTRON_MASS^2)
+        + 2*rho_mu^2*rho_e^2/3
+        + 2*E_in^2*(mmu^2 + me^2)
     )
 end
 
