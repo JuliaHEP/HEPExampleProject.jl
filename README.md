@@ -1,3 +1,7 @@
+## READ ME FIRST
+
+This project is presented as an example of how you'd develop a complete project in Julia. The rest of this README is written for an "imaginary user" of the complete project. If you are using this project, or its template, as an exercise in learning Julia, you should *ignore* this README, as you should work from the git repo you created.
+
 # HEPExampleProject.jl
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://JuliaHEP.github.io/HEPExampleProject.jl/stable/)
