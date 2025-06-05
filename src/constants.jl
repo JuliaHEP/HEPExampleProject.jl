@@ -1,3 +1,5 @@
+# FIXME: implement the constants
+
 """
     ELECTRON_MASS
 
@@ -11,7 +13,6 @@ This value is taken from the PDG 2020 recommended values of the fundamental phys
 
 """
 ELECTRON_MASS
-Base.@irrational ELECTRON_MASS 0.51099895000 BigFloat(0.51099895000) # MeV
 
 """
    MUON_MASS 
@@ -25,7 +26,6 @@ This value is taken from the PDG 2020 recommended values of the fundamental phys
 
 """
 MUON_MASS
-Base.@irrational MUON_MASS 105.6583755 BigFloat(105.6583755) #(23) MeV
 
 """
   ALPHA 
@@ -39,4 +39,3 @@ This value is taken from the PDG 2020 recommended values of the fundamental phys
 
 """
 ALPHA
-Base.@irrational ALPHA 0.0072973525643 BigFloat(0.0072973525643) #(11) 

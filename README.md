@@ -1,13 +1,4 @@
-## READ ME FIRST
-
-This project is presented as an example of how you'd develop a complete project in Julia. The rest of this README is written for an "imaginary user" of the complete project. If you are using this project, or its template, as an exercise in learning Julia, you should *ignore* this README, as you should work from the git repo you created.
-
 # HEPExampleProject.jl
-
-[![Documentation for development version](https://img.shields.io/badge/docs-dev-blue.svg)](https://JuliaHEP.github.io/HEPExampleProject.jl/dev)
-[![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE.md)
-[![Build Status](https://github.com/JuliaHEP/HEPExampleProject.jl/workflows/CI/badge.svg)](https://github.com/JuliaHEP/HEPExampleProject.jl/actions/workflows/CI.yml)
-[![Codecov](https://codecov.io/gh/JuliaHEP/HEPExampleProject.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/JuliaHEP/HEPExampleProject.jl)
 
 `HEPExampleProject.jl` is a demonstration package for showcasing how to develop software
 in the context of high-energy physics (HEP) using the Julia programming language. This project
