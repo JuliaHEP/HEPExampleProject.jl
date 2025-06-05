@@ -73,6 +73,14 @@ plot(event_list)
 
 ![event_plot](docs/assets/event_plot.png)
 
+You can also plot event lists using via the Makie plotting system, by using
+one of the Makie plotting backends (CairoMakie, WGLMakie, etc.):
+
+```Julia
+using CairoMakie
+plot(event_list)
+```
+
 ## Contributing
 
 We welcome contributions to improve this project! If you're interested in contributing, please:

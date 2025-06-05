@@ -3,7 +3,7 @@ module HEPExampleProjectPlotsExt
 using HEPExampleProject
 using Plots, RecipesBase
 
-@recipe function f(event_list::Vector{<:Event})
+@recipe function f(event_list::AbstractVector{<:Event})
     muon_cths = muon_cos_theta.(event_list)
 
     @series begin
