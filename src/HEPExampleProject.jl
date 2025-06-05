@@ -14,7 +14,6 @@ export muon_cos_theta, muon_rapidity
 
 export generate_flat_events_cpu, generate_events_cpu, max_weight
 
-export plot_muon_cos_theta 
 
 # Write your package code here.
 include("constants.jl")
@@ -23,7 +22,6 @@ include("cross_section.jl")
 include("events.jl")
 include("event_generation/serial.jl")
 include("event_generation/threadsafe.jl")
-include("plotting.jl")
 include("utils.jl")
 
 end

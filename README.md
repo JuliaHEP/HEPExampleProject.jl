@@ -63,12 +63,12 @@ incoming_electron_energy = 1000.0
 event_list = generate_events_cpu(RNG,incoming_electron_energy,1_000_000)
 ```
 
-If you separately install the package `StatsPlots` (`pkg> add StatsPlots`), you can plot
+If you separately install the package `Plots` (`pkg> add Plots`), you can plot
 the generated events:
 
 ```Julia
-using StatsPlots
-plot_muon_cos_theta(event_list)
+using Plots
+plot(event_list)
 ```
 
 ![event_plot](docs/assets/event_plot.png)
