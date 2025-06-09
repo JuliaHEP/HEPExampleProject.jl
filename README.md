@@ -4,8 +4,10 @@ This project is presented as an example of how you'd develop a complete project 
 
 # HEPExampleProject.jl
 
-[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://JuliaHEP.github.io/HEPExampleProject.jl/stable/)
-[![Build Status](https://github.com/JuliaHEP/HEPExampleProject.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/JuliaHEP/HEPExampleProject.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Documentation for development version](https://img.shields.io/badge/docs-dev-blue.svg)](https://JuliaHEP.github.io/HEPExampleProject.jl/dev)
+[![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE.md)
+[![Build Status](https://github.com/JuliaHEP/HEPExampleProject.jl/workflows/CI/badge.svg)](https://github.com/JuliaHEP/HEPExampleProject.jl/actions/workflows/CI.yml)
+[![Codecov](https://codecov.io/gh/JuliaHEP/HEPExampleProject.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/JuliaHEP/HEPExampleProject.jl)
 
 `HEPExampleProject.jl` is a demonstration package for showcasing how to develop software
 in the context of high-energy physics (HEP) using the Julia programming language. This project
@@ -61,15 +63,23 @@ incoming_electron_energy = 1000.0
 event_list = generate_events_cpu(RNG,incoming_electron_energy,1_000_000)
 ```
 
-If you separately install the package `StatsPlots` (`pkg> add StatsPlots`), you can plot
+If you separately install the package `Plots` (`pkg> add Plots`), you can plot
 the generated events:
 
 ```Julia
-using StatsPlots
-plot_muon_cos_theta(event_list)
+using Plots
+plot(event_list)
 ```
 
 ![event_plot](docs/assets/event_plot.png)
+
+You can also plot event lists using via the Makie plotting system, by using
+one of the Makie plotting backends (CairoMakie, WGLMakie, etc.):
+
+```Julia
+using CairoMakie
+plot(event_list)
+```
 
 ## Contributing
 
