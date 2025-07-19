@@ -1,7 +1,9 @@
 using HEPExampleProject
 using Documenter
 
-DocMeta.setdocmeta!(HEPExampleProject, :DocTestSetup, :(using HEPExampleProject); recursive=true)
+DocMeta.setdocmeta!(
+    HEPExampleProject, :DocTestSetup, :(using HEPExampleProject); recursive=true
+)
 
 makedocs(;
     modules=[HEPExampleProject],
@@ -12,12 +14,7 @@ makedocs(;
         edit_link="main",
         assets=String[],
     ),
-    pages=[
-        "Home" => "index.md",
-    ],
+    pages=["Home" => "index.md"],
 )
 
-deploydocs(;
-    repo="github.com/JuliaHEP/HEPExampleProject.jl",
-    devbranch="main",
-)
+deploydocs(; repo="github.com/JuliaHEP/HEPExampleProject.jl", devbranch="main")

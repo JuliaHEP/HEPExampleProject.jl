@@ -1,5 +1,5 @@
 
-@inline _rho(E,m) = sqrt(E^2 - m^2) 
+@inline _rho(E, m) = sqrt(E^2 - m^2)
 
 """
     differential_cross_section(E_in::Real, cos_theta::Real)
@@ -46,9 +46,9 @@ function differential_cross_section(E_in, cos_theta)
     T = typeof(E_in)
 
     # enforce the irrational constants to be the same type as E_in
-    alpha = convert(T,ALPHA)
-    me = convert(T,ELECTRON_MASS)
-    mmu = convert(T,MUON_MASS)
+    alpha = convert(T, ALPHA)
+    me = convert(T, ELECTRON_MASS)
+    mmu = convert(T, MUON_MASS)
 
     # reminder: Ein == Eout
     rho_e = _rho(E_in, me)
@@ -92,23 +92,16 @@ julia> total_cross_section(E_in)
 """
 function total_cross_section(E_in)
     T = typeof(E_in)
-    
+
     # enforce the irrational constants to be the same type as E_in
-    alpha = convert(T,ALPHA)
-    me = convert(T,ELECTRON_MASS)
-    mmu = convert(T,MUON_MASS)
+    alpha = convert(T, ALPHA)
+    me = convert(T, ELECTRON_MASS)
+    mmu = convert(T, MUON_MASS)
 
-    rho_e  = _rho(E_in,me)
-    rho_mu = _rho(E_in,mmu)
+    rho_e = _rho(E_in, me)
+    rho_mu = _rho(E_in, mmu)
 
-    prefac = pi*alpha^2/(8*E_in^6)*rho_mu/rho_e
+    prefac = pi * alpha^2 / (8 * E_in^6) * rho_mu / rho_e
 
-    return prefac*(
-        2*E_in^4
-        + 2*rho_mu^2*rho_e^2/3
-        + 2*E_in^2*(mmu^2 + me^2)
-    )
+    return prefac * (2 * E_in^4 + 2 * rho_mu^2 * rho_e^2 / 3 + 2 * E_in^2 * (mmu^2 + me^2))
 end
-
-
-
