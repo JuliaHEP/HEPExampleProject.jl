@@ -1,0 +1,7 @@
+# update git config to use .git-blame-ignore-revs by default:
+# git config blame.ignoreRevsFile .git-blame-ignore-revs
+# or run manually with:
+# git blame --ignore-revs-file .git-blame-ignore-revs <file>
+#
+# fix formatting
+b353f80a172267484b4d0747b3bc7284a51f6582
