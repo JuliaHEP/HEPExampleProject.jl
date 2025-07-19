@@ -127,7 +127,7 @@ Computes the Minkowski dot product of two four-momentum vectors. The dot product
 Minkowski metric `(+,-,-,-)`. For ``p_i = (E_i,p_i^x,p_i^y,p_i^z)`` with ``i=1,2``, the result is:
 
 ```math
-    p_1 \\cdot p_2 = E_1E_2 - p_1^xp_2^x - p_1^yp_2^y + p_1^zp_2^z
+    p_1 \\cdot p_2 = E_1E_2 - p_1^xp_2^x - p_1^yp_2^y - p_1^zp_2^z
 ```
 
 # Example
@@ -150,7 +150,7 @@ end
 function _construct_moms_from_coords(E_in, cos_theta, phi)
     T = typeof(E_in)
 
-    # enfore the irrational constants to be the same type as E_in
+    # enforce the irrational constants to be the same type as E_in
     me = convert(T,ELECTRON_MASS)
     mmu = convert(T,MUON_MASS)
 

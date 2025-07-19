@@ -1,7 +1,7 @@
 """
     max_weight(E_in)
 
-Return the maximum weight, i.e. the maxmaximum value of [`differential_cross_section`](@ref) for specified initial electron energy `E_in. 
+Return the maximum weight, i.e. the maximum value of [`differential_cross_section`](@ref) for specified initial electron energy `E_in`. 
 
 # Example
 ```jldoctest
@@ -38,7 +38,7 @@ flat random distribution in the cosine of the scattering angle and azimuthal ang
 julia> rng = MersenneTwister(137)
 julia> event_list = generate_flat_events_cpu(rng, 1e3, 1000);
 ```
-The `;` should be used at the end of the last promt to suppress printing the whole event list.
+The `;` should be used at the end of the last prompt to suppress printing the whole event list.
 
 # Notes
 - This method generates weighted events where the weights are derived from the differential cross section. For unweighted events, use [`generate_events_cpu`](@ref).
@@ -46,9 +46,9 @@ The `;` should be used at the end of the last promt to suppress printing the who
 function generate_flat_events_cpu(rng::AbstractRNG,E_in::T,nevents::Int) where {T<:Real}
     cth_arr = 2 .* rand(rng,nevents) .- 1
     phi_arr = (2*pi) .* rand(rng,nevents) 
-    weigth_list = differential_cross_section.(E_in,cth_arr)
+    weight_list = differential_cross_section.(E_in,cth_arr)
 
-    event_list = Event.(E_in,cth_arr,phi_arr,weigth_list)
+    event_list = Event.(E_in,cth_arr,phi_arr,weight_list)
    
     return event_list
 end

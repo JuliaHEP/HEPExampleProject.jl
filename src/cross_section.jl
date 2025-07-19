@@ -45,7 +45,7 @@ julia> differential_cross_section(E_in, cos_theta)
 function differential_cross_section(E_in, cos_theta)
     T = typeof(E_in)
 
-    # enfore the irrational constants to be the same type as E_in
+    # enforce the irrational constants to be the same type as E_in
     alpha = convert(T,ALPHA)
     me = convert(T,ELECTRON_MASS)
     mmu = convert(T,MUON_MASS)
@@ -93,7 +93,7 @@ julia> total_cross_section(E_in)
 function total_cross_section(E_in)
     T = typeof(E_in)
     
-    # enfore the irrational constants to be the same type as E_in
+    # enforce the irrational constants to be the same type as E_in
     alpha = convert(T,ALPHA)
     me = convert(T,ELECTRON_MASS)
     mmu = convert(T,MUON_MASS)
