@@ -29,11 +29,10 @@ using Plots, RecipesBase
         alpha := 0.5
 
         (
-            range(-1,1; length=100),
-            x -> differential_cross_section(E_in,x)/tot_weight*2*pi
+            range(-1, 1; length=100),
+            x -> differential_cross_section(E_in, x) / tot_weight * 2 * pi,
         )
     end
-
 end
 
 end # module HEPExampleProjectPlotsExt

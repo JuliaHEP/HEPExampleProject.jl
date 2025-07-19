@@ -14,10 +14,10 @@ differential cross-section for the process.
 """
 function generate_flat_event(E_in::T) where {T<:Real}
     cth = 2 * rand(T) - 1
-    phi = 2 * pi * rand(T) 
-    weight = differential_cross_section(E_in,cth)
+    phi = 2 * pi * rand(T)
+    weight = differential_cross_section(E_in, cth)
 
-    event= Event(E_in,cth,phi,weight)
+    event = Event(E_in, cth, phi, weight)
     return event
 end
 
@@ -35,11 +35,11 @@ incoming energy `E_in`.
 # Returns
 - A Boolean value indicating whether the event passes the unweighting criterion (`true` if accepted, `false` otherwise).
 """
-function build_unweighting_mask(E_in::T,event) where T
+function build_unweighting_mask(E_in::T, event) where {T}
     maximum_weight = max_weight(E_in)
-    return event.weight >= rand(T)*maximum_weight
+    return event.weight >= rand(T) * maximum_weight
 end
- 
+
 """
     generate_event_and_masks(E_in)
 
@@ -56,7 +56,7 @@ a randomly scaled maximum weight (see [`build_unweighting_mask`](@ref) for detai
 """
 function generate_event_and_masks(E_in)
     event = generate_flat_event(E_in)
-    return (event,build_unweighting_mask(E_in,event))
+    return (event, build_unweighting_mask(E_in, event))
 end
 
 """
@@ -77,7 +77,7 @@ function filter_accepted(record_list)
 
     for record in record_list
         if record[2]
-            push!(accepted_events,record[1])
+            push!(accepted_events, record[1])
         end
     end
     return accepted_events
@@ -100,28 +100,21 @@ and only accepted events are retained.
 - A list of unweighted `Event` objects.
 """
 function generate_events(
-    E_in::T,
-    nevents; 
-    array_type::Type{ARRAY_TYPE}=Vector{T}, 
-    chunksize = 100
-) where {
-        T<:Real,
-        ARRAY_TYPE<:AbstractVector{T}
-    }
-
+    E_in::T, nevents; array_type::Type{ARRAY_TYPE}=Vector{T}, chunksize=100
+) where {T<:Real,ARRAY_TYPE<:AbstractVector{T}}
     unweighted_events = Event{T}[]
-    sizehint!(unweighted_events,nevents)
+    sizehint!(unweighted_events, nevents)
 
-    E_in_vec = array_type(undef,chunksize)
-    fill!(E_in_vec,E_in)
+    E_in_vec = array_type(undef, chunksize)
+    fill!(E_in_vec, E_in)
     nrun = 0
 
-    while nrun<=nevents
+    while nrun <= nevents
         event_records = generate_event_and_masks.(E_in_vec)
         event_records_cpu = Vector(event_records)
         accepted_events = filter_accepted(event_records_cpu)
         nrun += length(accepted_events)
-        append!(unweighted_events,accepted_events)
+        append!(unweighted_events, accepted_events)
     end
 
     return unweighted_events

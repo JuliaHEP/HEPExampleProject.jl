@@ -10,7 +10,7 @@ julia> max_weight(1e3)
 ```
 """
 function max_weight(E_in)
-    differential_cross_section(E_in,-1) 
+    return differential_cross_section(E_in, -1)
 end
 
 """
@@ -43,16 +43,15 @@ The `;` should be used at the end of the last prompt to suppress printing the wh
 # Notes
 - This method generates weighted events where the weights are derived from the differential cross section. For unweighted events, use [`generate_events_cpu`](@ref).
 """
-function generate_flat_events_cpu(rng::AbstractRNG,E_in::T,nevents::Int) where {T<:Real}
-    cth_arr = 2 .* rand(rng,nevents) .- 1
-    phi_arr = (2*pi) .* rand(rng,nevents) 
-    weight_list = differential_cross_section.(E_in,cth_arr)
+function generate_flat_events_cpu(rng::AbstractRNG, E_in::T, nevents::Int) where {T<:Real}
+    cth_arr = 2 .* rand(rng, nevents) .- 1
+    phi_arr = (2 * pi) .* rand(rng, nevents)
+    weight_list = differential_cross_section.(E_in, cth_arr)
 
-    event_list = Event.(E_in,cth_arr,phi_arr,weight_list)
-   
+    event_list = Event.(E_in, cth_arr, phi_arr, weight_list)
+
     return event_list
 end
-
 
 """
     generate_events_cpu(rng::AbstractRNG, E_in::Real, nevents::Int) 
@@ -81,21 +80,21 @@ julia> rng = MersenneTwister(137)
 julia> unweighted_events = generate_events_cpu(rng, 1e3, 1000);
 ```
 """
-function generate_events_cpu(rng::AbstractRNG,E_in::T,nevents::Int) where {T<:Real}
-    unweighted_events = Vector{Event{T}}(undef,nevents)
+function generate_events_cpu(rng::AbstractRNG, E_in::T, nevents::Int) where {T<:Real}
+    unweighted_events = Vector{Event{T}}(undef, nevents)
     maximum_weight = max_weight(E_in)
-   
+
     j = 1
     while true
-        cth_trail = 2*rand(rng)-1 
+        cth_trail = 2 * rand(rng) - 1
 
-        weight = differential_cross_section(E_in,cth_trail)
+        weight = differential_cross_section(E_in, cth_trail)
 
-        if weight >= rand(rng)*maximum_weight
-            phi_trail = 2*pi*rand(rng)
+        if weight >= rand(rng) * maximum_weight
+            phi_trail = 2 * pi * rand(rng)
 
-            moms_tuple = _construct_moms_from_coords(E_in,cth_trail,phi_trail)
-            unweighted_events[j] = Event(moms_tuple...,one(weight))
+            moms_tuple = _construct_moms_from_coords(E_in, cth_trail, phi_trail)
+            unweighted_events[j] = Event(moms_tuple..., one(weight))
             if j == nevents
                 break
             else
@@ -105,4 +104,3 @@ function generate_events_cpu(rng::AbstractRNG,E_in::T,nevents::Int) where {T<:Re
     end
     return unweighted_events
 end
-
