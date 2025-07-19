@@ -14,7 +14,7 @@ differential cross-section for the process.
 """
 function generate_flat_event(E_in::T) where {T<:Real}
     cth = 2 * rand(T) - 1
-    phi = rand(T) 
+    phi = 2 * pi * rand(T) 
     weight = differential_cross_section(E_in,cth)
 
     event= Event(E_in,cth,phi,weight)

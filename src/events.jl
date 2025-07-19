@@ -50,7 +50,7 @@ Event e-e+ -> mu-mu+
 
 	muon:      (9.5, 2.0, 1.0, 8.0)
 
-	anti muon: (10.5, -2.0, -1.0, -8.0)
+	anti-muon: (10.5, -2.0, -1.0, -8.0)
 
 	weight:    1.2
 ```
@@ -101,7 +101,7 @@ function Base.show(io::IO, m::MIME"text/plain", event::Event)
             \telectron:  $(event.electron_momentum)
             \tpositron:  $(event.positron_momentum)
             \tmuon:      $(event.muon_momentum)
-            \tanti muon: $(event.anti_muon_momentum)
+            \tanti-muon: $(event.anti_muon_momentum)
             \tweight:    $(event.weight)
             """)
     return nothing
@@ -109,7 +109,7 @@ end
 
 ###
 # accessor functions
-# see FourMomentumBase.jl for a more exhaused list
+# see FourMomentumBase.jl for a more exhausted list
 ###
 
 function muon_cos_theta(event)

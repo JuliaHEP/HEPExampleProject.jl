@@ -1,7 +1,7 @@
 """
     ELECTRON_MASS
 
-The mass of the electron in its rest frame, given as 0.51099895000 MeV
+The mass of the electron in its rest frame, given as 0.51099895000 MeV.
 
 This value is taken from the PDG 2020 recommended values of the fundamental physical constants.
 
@@ -16,7 +16,7 @@ Base.@irrational ELECTRON_MASS 0.51099895000 BigFloat(0.51099895000) # MeV
 """
    MUON_MASS 
 
-The mass of the muon in its rest frame, given as 105.6583755 MeV
+The mass of the muon in its rest frame, given as 105.6583755 MeV.
 
 This value is taken from the PDG 2020 recommended values of the fundamental physical constants.
 

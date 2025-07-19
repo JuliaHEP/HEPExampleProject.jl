@@ -31,7 +31,7 @@ RNG = MersenneTwister(137)
         @test isapprox(p1_plus_p2.z,z1 + z2)
     end
 
-    @testset "substraction" begin
+    @testset "subtraction" begin
         p1_minus_p2 = @inferred p1 - p2
         @test isapprox(p1_minus_p2.en,en1 - en2)
         @test isapprox(p1_minus_p2.x,x1 - x2)

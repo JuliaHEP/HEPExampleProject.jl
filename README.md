@@ -53,7 +53,7 @@ The following example demonstrates a simple use of the package:
 using HEPExampleProject
 using Random
 
-# define random number generator for reproducability
+# define random number generator for reproducibility
 RNG = Xoshiro(137)
 
 # Define some input parameters for the HEP process
