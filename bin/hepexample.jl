@@ -20,7 +20,9 @@ function print_values(output::IO, evt::Event)::Nothing
     return print(output, weight)
 end
 
-@main function main(args)
+# Main entry point compatible with Julia < 1.11
+# For Julia >= 1.11, you can use the `function (@main)(args)` macro instead
+function main(args)
     n_events = 20
 
     rng = Xoshiro(137)
@@ -35,5 +37,6 @@ end
     return 0
 end
 
-# # In Julia, test with
-# julia> include("hepexample.jl"); main()
+# Compatibility with Julia < 1.11
+# Not needed for Julia >= 1.11 if using `function (@main)(args)`
+@static @isdefined(var"@main") ? (@main) : main(ARGS)
