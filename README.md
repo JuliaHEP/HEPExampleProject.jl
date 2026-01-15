@@ -102,7 +102,7 @@ Follow the instructions from [JuliaC.jl](https://github.com/JuliaLang/JuliaC.jl)
 Then compile the executable by running the following from the project's root directory:
 
 ```bash
-juliac --project . --output-exe hepexample  bin/hepexample.jl --experimental --trim=unsafe-warn
+juliac --project="." --output-exe hepexample  bin/hepexample.jl --experimental --trim=safe
 ```
 
 The compiled executable can then be run with:
