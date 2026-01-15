@@ -1,5 +1,3 @@
-# TODO: add check for energy momentum conservation
-
 """
     Event(
         electron_momentum,
@@ -56,11 +54,9 @@ Event e-e+ -> mu-mu+
 ```
 """
 struct Event{T}
-    electron_momentum::FourMomentum{T}
-    positron_momentum::FourMomentum{T}
-    muon_momentum::FourMomentum{T}
-    anti_muon_momentum::FourMomentum{T}
-
+    #
+    # FIXME: add in more fields here
+    #
     weight::T
 
     function Event(
@@ -85,7 +81,9 @@ Event(d::Dict, weight) = Event(d["e-"], d["e+"], d["mu-"], d["mu+"], weight)
 
 # construct event from coordinates
 function Event(E_in::Real, cos_theta::Real, phi::Real, weight::Real)
-    return Event(_construct_moms_from_coords(E_in, cos_theta, phi)..., weight)
+    #
+    # FIXME: add me 
+    #
 end
 
 # easy access of element type

@@ -22,16 +22,19 @@ FourMomentum(en = 4.0, x = 1.0, y = 2.0, z = 3.0)
 ```
 """
 struct FourMomentum{T<:Real}
-    en::T  # energy component
-    x::T  # x-component 
-    y::T  # y-component
-    z::T  # z-component
+    #
+    # FIXME: fill me in
+    #
 end
 # type promotion on construction
 FourMomentum(en, x, y, z) = FourMomentum(promote(en, x, y, z)...)
 
 # return the element type
-Base.eltype(::FourMomentum{T}) where {T} = T
+function Base.eltype(::FourMomentum{T}) where {T}
+    #
+    # FIXME:
+    #
+end
 
 # Overload Base.show for pretty printing of FourMomentum; plain text version
 function Base.show(io::IO, m::MIME"text/plain", p::FourMomentum)
@@ -71,7 +74,7 @@ FourMomentum(en = 6.0, x = 1.5, y = 3.0, z = 4.5)
 ```
 """
 function Base.:+(p1::FourMomentum, p2::FourMomentum)
-    return FourMomentum(p1.en + p2.en, p1.x + p2.x, p1.y + p2.y, p1.z + p2.z)
+    # FIXME: fill me in
 end
 
 """
@@ -95,7 +98,7 @@ FourMomentum(en = 2.0, x = 0.5, y = 1.0, z = 1.5)
 ```
 """
 function Base.:-(p1::FourMomentum, p2::FourMomentum)
-    return FourMomentum(p1.en - p2.en, p1.x - p2.x, p1.y - p2.y, p1.z - p2.z)
+    # FIXME: fill me in
 end
 
 """
@@ -116,7 +119,7 @@ FourMomentum(en = 8.0, x = 2.0, y = 4.0, z = 6.0)
 ```
 """
 function Base.:*(a::Real, p::FourMomentum)
-    return FourMomentum(a * p.en, a * p.x, a * p.y, a * p.z)
+    # FIXME: fill me in
 end
 
 """
@@ -144,29 +147,13 @@ julia> minkowski_dot(p1, p2)
 """
 function minkowski_dot(p1::FourMomentum, p2::FourMomentum)
     # Minkowski metric: (+,-,-,-)
-    return p1.en * p2.en - p1.x * p2.x - p1.y * p2.y - p1.z * p2.z
+    # FIXME: fill me in
 end
 
 function _construct_moms_from_coords(E_in, cos_theta, phi)
-    T = typeof(E_in)
-
-    # enforce the irrational constants to be the same type as E_in
-    me = convert(T, ELECTRON_MASS)
-    mmu = convert(T, MUON_MASS)
-
-    rho_e = _rho(E_in, me)
-    p_in_electron = FourMomentum(E_in, 0, 0, rho_e)
-    p_in_positron = FourMomentum(E_in, 0, 0, -rho_e)
-
-    rho_mu = _rho(E_in, mmu)
-    sin_theta = sqrt(1 - cos_theta^2)
-    sin_phi, cos_phi = sincos(phi)
-    p_out_muon = FourMomentum(
-        E_in, rho_mu * sin_theta * cos_phi, rho_mu * sin_theta * sin_phi, rho_mu * cos_theta
-    )
-    p_out_anti_muon = p_in_electron + p_in_positron - p_out_muon
-
-    return (p_in_electron, p_in_positron, p_out_muon, p_out_anti_muon)
+    #
+    # FIXME: fill me in
+    #
 end
 
 # TODO: 
@@ -208,6 +195,7 @@ FourMomentum(en = 1000.0, x = -306.4954310103767, y = -306.49543101037665, z = -
 ```
 """
 function coords_to_dict(E_in, cos_theta, phi)
-    moms = _construct_moms_from_coords(E_in, cos_theta, phi)
-    return Dict("e-" => moms[1], "e+" => moms[2], "mu-" => moms[3], "mu+" => moms[4])
+    #
+    # FIXME: fill me in
+    #
 end

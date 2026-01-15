@@ -1,5 +1,9 @@
 
-@inline _rho(E, m) = sqrt(E^2 - m^2)
+@inline function _rho(E,m) 
+    #
+    # FIXME: implement this!
+    #
+end
 
 """
     differential_cross_section(E_in::Real, cos_theta::Real)
@@ -43,19 +47,9 @@ julia> differential_cross_section(E_in, cos_theta)
 - Schwartz 2014: M.D. Schwartz, "Quantum Field Theory and the Standard Model", Cambridge University Press, New York (2014)
 """
 function differential_cross_section(E_in, cos_theta)
-    T = typeof(E_in)
-
-    # enforce the irrational constants to be the same type as E_in
-    alpha = convert(T, ALPHA)
-    me = convert(T, ELECTRON_MASS)
-    mmu = convert(T, MUON_MASS)
-
-    # reminder: Ein == Eout
-    rho_e = _rho(E_in, me)
-    rho_mu = _rho(E_in, mmu)
-
-    prefac = alpha^2 / (16 * E_in^6) * rho_mu / rho_e
-    return prefac * (E_in^4 + rho_e^2 * rho_mu^2 * cos_theta^2 + E_in^2 * (me^2 + mmu^2))
+    #
+    # FIXME: fill me in
+    #
 end
 
 """
@@ -91,17 +85,10 @@ julia> total_cross_section(E_in)
 ```
 """
 function total_cross_section(E_in)
-    T = typeof(E_in)
-
-    # enforce the irrational constants to be the same type as E_in
-    alpha = convert(T, ALPHA)
-    me = convert(T, ELECTRON_MASS)
-    mmu = convert(T, MUON_MASS)
-
-    rho_e = _rho(E_in, me)
-    rho_mu = _rho(E_in, mmu)
-
-    prefac = pi * alpha^2 / (8 * E_in^6) * rho_mu / rho_e
-
-    return prefac * (2 * E_in^4 + 2 * rho_mu^2 * rho_e^2 / 3 + 2 * E_in^2 * (mmu^2 + me^2))
+    #
+    # FIXME: fill me in
+    #
 end
+
+
+

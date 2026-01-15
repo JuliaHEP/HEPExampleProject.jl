@@ -14,11 +14,9 @@ differential cross-section for the process.
 """
 function generate_flat_event(E_in::T) where {T<:Real}
     cth = 2 * rand(T) - 1
-    phi = 2 * pi * rand(T)
-    weight = differential_cross_section(E_in, cth)
-
-    event = Event(E_in, cth, phi, weight)
-    return event
+    #
+    # FIXME: fill in the rest
+    # 
 end
 
 """
@@ -36,8 +34,9 @@ incoming energy `E_in`.
 - A Boolean value indicating whether the event passes the unweighting criterion (`true` if accepted, `false` otherwise).
 """
 function build_unweighting_mask(E_in::T, event) where {T}
-    maximum_weight = max_weight(E_in)
-    return event.weight >= rand(T) * maximum_weight
+    #
+    # FIXME: fill in the rest
+    # 
 end
 
 """
@@ -55,8 +54,9 @@ a randomly scaled maximum weight (see [`build_unweighting_mask`](@ref) for detai
   - `mask`: A Boolean indicating whether the event is accepted or rejected based on its weight.
 """
 function generate_event_and_masks(E_in)
-    event = generate_flat_event(E_in)
-    return (event, build_unweighting_mask(E_in, event))
+    #
+    # FIXME: fill in the rest
+    # 
 end
 
 """
@@ -72,15 +72,9 @@ and a Boolean mask indicating whether the event was accepted.
 - A list of accepted `Event` objects.
 """
 function filter_accepted(record_list)
-    T = eltype(record_list[1][1])
-    accepted_events = Event{T}[]
-
-    for record in record_list
-        if record[2]
-            push!(accepted_events, record[1])
-        end
-    end
-    return accepted_events
+    #
+    # FIXME: fill in the rest
+    # 
 end
 
 """
@@ -105,16 +99,14 @@ function generate_events(
     unweighted_events = Event{T}[]
     sizehint!(unweighted_events, nevents)
 
-    E_in_vec = array_type(undef, chunksize)
-    fill!(E_in_vec, E_in)
-    nrun = 0
+    #
+    # FIXME: add more initialization
+    #
 
     while nrun <= nevents
-        event_records = generate_event_and_masks.(E_in_vec)
-        event_records_cpu = Vector(event_records)
-        accepted_events = filter_accepted(event_records_cpu)
-        nrun += length(accepted_events)
-        append!(unweighted_events, accepted_events)
+        #
+        # FIXME: fill me in
+        #
     end
 
     return unweighted_events
