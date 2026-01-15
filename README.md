@@ -81,6 +81,35 @@ using CairoMakie
 plot(event_list)
 ```
 
+### Executable
+
+An example executable using the `HEPExampleProject.jl` package is provided in the `bin/` directory. The executable can be run from the project's root directory with:
+
+```bash
+julia --project bin/hepexample.jl
+```
+or included in a Julia REPL with:
+
+```julia
+julia> include("bin/hepexample.jl"); main(ARGS)
+```
+
+#### Compilation
+
+The example executable can be compiled to a standalone binary.
+
+Follow the instructions from [JuliaC.jl](https://github.com/JuliaLang/JuliaC.jl) to install `juliac`.
+Then compile the executable by running the following from the project's root directory:
+
+```bash
+juliac --project . --output-exe hepexample  bin/hepexample.jl --experimental --trim=unsafe-warn
+```
+
+The compiled executable can then be run with:
+```bash
+./hepexample
+```
+
 ## Contributing
 
 We welcome contributions to improve this project! If you're interested in contributing, please:
