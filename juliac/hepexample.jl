@@ -1,5 +1,3 @@
-module RunHEPExample
-
 using HEPExampleProject
 using Random
 
@@ -22,7 +20,7 @@ function print_values(output::IO, evt::Event)::Nothing
     return print(output, weight)
 end
 
-Base.@ccallable function main()::Cint
+@main function main(args)
     n_events = 20
 
     rng = Xoshiro(137)
@@ -34,10 +32,8 @@ Base.@ccallable function main()::Cint
         println(Core.stdout)
     end
 
-    return zero(Cint)
+    return 0
 end
 
-end # module RunHEPExample
-
 # # In Julia, test with
-# RunHEPExample.main()
+# julia> include("hepexample.jl"); main()
